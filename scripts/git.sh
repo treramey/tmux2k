@@ -4,9 +4,9 @@ current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$current_dir"/utils.sh
 
 hide_status=$(get_tmux_option '@tmux2k-git-disable-status' 'false')
-current_symbol=$(get_tmux_option '@tmux2k-git-show-current-symbol' '')
-diff_symbol=$(get_tmux_option '@tmux2k-git-show-diff-symbol' '')
-no_repo_message=$(get_tmux_option '@tmux2k-git-no-repo-message' '')
+current_symbol=$(get_tmux_option '@tmux2k-git-show-current-symbol' '')
+diff_symbol=$(get_tmux_option '@tmux2k-git-show-diff-symbol' '')
+no_repo_message=$(get_tmux_option '@tmux2k-git-no-repo-message' '')
 
 get_changes() {
     declare -i added=0
@@ -76,7 +76,7 @@ check_for_git_dir() {
 
 get_branch() {
     if [ $(check_for_git_dir) == "true" ]; then
-        printf "%.20s " $(git -C "$path" rev-parse --abbrev-ref HEAD)
+        printf "%.20s" $(git -C "$path" rev-parse --abbrev-ref HEAD)
     else
         echo "$no_repo_message"
     fi
@@ -94,13 +94,13 @@ get_message() {
                 if [ $(check_empty_symbol "$diff_symbol") == "true" ]; then
                     echo "${changes} $branch"
                 else
-                    echo "$diff_symbol ${changes} $branch"
+                    echo "#[fg="green"]$diff_symbol${changes} $branch"
                 fi
             else
                 if [ $(check_empty_symbol "$diff_symbol") == "true" ]; then
                     echo "$branch"
                 else
-                    echo "$diff_symbol $branch"
+                    echo "$diff_symbol$branch"
                 fi
             fi
 
