@@ -24,13 +24,14 @@ text=$(get_tmux_option "@tmux2k-text" '#282a36')
 bg_main=$(get_tmux_option "@tmux2k-bg-main" '#000000')
 bg_alt=$(get_tmux_option "@tmux2k-bg-alt" '#1f1f1f')
 black=$(get_tmux_option "@tmux2k-black" '#0a0a0f')
-white=$(get_tmux_option "@tmux2k-white" '#d5d5da')
+white=$(get_tmux_option "@tmux2k-white" '#FFFFFF')
+gray=$(get_tmux_option "@tmux2k-white" '#666787')
 red=$(get_tmux_option "@tmux2k-red" '#ff001f')
 light_red=$(get_tmux_option "@tmux2k-light-red" '#ff0055')
 green=$(get_tmux_option "@tmux2k-green" '#3dd50a')
 light_green=$(get_tmux_option "@tmux2k-light-green" '#ccffcc')
-blue=$(get_tmux_option "@tmux2k-blue" '#1688f0')
-light_blue=$(get_tmux_option "@tmux2k-light-blue" '#11dddd')
+blue=$(get_tmux_option "@tmux2k-blue" '#5FF1FF')
+light_blue=$(get_tmux_option "@tmux2k-light-blue" '#5FF1FF')
 yellow=$(get_tmux_option "@tmux2k-yellow" '#ffb86c')
 light_yellow=$(get_tmux_option "@tmux2k-light-yellow" '#ffd21a')
 purple=$(get_tmux_option "@tmux2k-purple" '#bf58ff')
@@ -39,10 +40,10 @@ light_purple=$(get_tmux_option "@tmux2k-light-purple" '#ff65c6')
 declare -A plugin_colors=(
     ["session"]="green text"
     ["git"]="green text"
-    ["cpu"]="light_green text"
+    ["cpu"]="blue text"
     ["cwd"]="blue text"
     ["ram"]="light_yellow text"
-    ["gpu"]="red text"
+    ["gpu"]="yellow text"
     ["battery"]="light_purple text"
     ["network"]="purple text"
     ["bandwidth"]="purple text"
@@ -155,20 +156,20 @@ set_theme() {
         show_powerline=false
         text=$bg_main
         plugin_colors=(
-            ["session"]="text green"
-            ["git"]="text green"
-            ["cpu"]="text light_green"
-            ["cwd"]="text blue"
+            ["session"]="text gray"
+            ["git"]="text gray"
+            ["cpu"]="text gray"
+            ["cwd"]="text gray"
             ["ram"]="text light_yellow"
-            ["gpu"]="text red"
-            ["battery"]="text light_purple"
+            ["gpu"]="text yellow"
+            ["battery"]="text gray"
             ["network"]="text purple"
             ["bandwidth"]="text purple"
             ["ping"]="text purple"
             ["weather"]="text yellow"
-            ["time"]="text light_blue"
+            ["time"]="text gray"
             ["pomodoro"]="text red"
-            ["window_list"]="blue bg_main"
+            ["window_list"]="white bg_main"
         )
     fi
 }
@@ -184,11 +185,12 @@ set_options() {
     tmux set-option -g pane-border-style "fg=${bg_main}"
     tmux set-option -g message-style "bg=${bg_main},fg=${blue}"
     tmux set-option -g status-style "bg=${bg_main},fg=${white}"
-    tmux set -g status-justify "$window_list_alignment"
+    tmux set -g status-justify left
 
-    tmux set-window-option -g window-status-activity-style "bold"
-    tmux set-window-option -g window-status-bell-style "bold"
-    tmux set-window-option -g window-status-current-style "bold"
+
+start_icon() {
+
+    tmux set-option -g status-left "#[bg=default,fg=${blue}] "󰋙" #S  "
 }
 
 status_bar() {
@@ -214,7 +216,7 @@ status_bar() {
                 IFS=' ' read -r -a next_colors <<<"$(get_plugin_colors "$next_plugin")"
                 pl_bg=${!next_colors[0]:-$bg_main}
                 tmux set-option -ga status-left \
-                    "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${l_sep}"
+                    "#[fg=${!colors[1]},bg=${!colors[0]}] $script #[fg=${gray},bg=${pl_bg},nobold,nounderscore,noitalics]${l_sep}"
                 pl_bg=${bg_main}
             else
                 tmux set-option -ga status-left "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
@@ -225,7 +227,7 @@ status_bar() {
                     "#[fg=${!colors[0]},bg=${pl_bg},nobold,nounderscore,noitalics]${r_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
                 pl_bg=${!colors[0]}
             else
-                tmux set-option -ga status-right "#[fg=${!colors[1]},bg=${!colors[0]}] $script "
+                tmux set-option -ga status-right "#[fg=${gray},bg=${!colors[0]}] $script "
             fi
         fi
     done
@@ -258,13 +260,14 @@ window_list() {
 
     if $icons_only; then
         tmux set-window-option -g window-status-current-format "#[fg=${wbg},bg=${wfg}]${spacer}${window_list_format}${spacer}"
-        tmux set-window-option -g window-status-format "#[fg=${white},bg=${wfg}]${spacer}${window_list_format}${spacer}"
+        tmux set-window-option -g window-status-format "#[fg=${gray},bg=${wfg}]${spacer}${window_list_format}${spacer}"
     fi
 }
 
 main() {
     set_theme
     set_options
+    start_icon
     status_bar "left"
     window_list
     status_bar "right"
