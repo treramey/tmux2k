@@ -45,7 +45,11 @@ main() {
         fi
     done
 
-    echo "$network"
+    if [ "$network" = "Offline" ]; then
+      echo "#[fg="red"]󰖪 $network"
+    else
+      echo "$network"
+    fi
 }
 
 main

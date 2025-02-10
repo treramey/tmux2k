@@ -37,9 +37,15 @@ get_percent() {
 
 main() {
     RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
-    ram_icon=$(get_tmux_option "@tmux2k-ram-icon" "")
+    ram_label=$(get_tmux_option "@tmux2k-ram-usage-label" " ")
     ram_percent=$(get_percent)
-    echo "$ram_icon $ram_percent"
+    if [ "$ram_percent" -gt 75 ]; then
+      echo "#[fg="red"]$ram_label $ram_percent"
+    elif [ "$ram_percent" -gt 60 ]; then
+      echo "#[fg="orange"]$ram_label $ram_percent"
+    else
+      echo "$ram_label $ram_percent"
+    fi
     sleep "$RATE"
 }
 

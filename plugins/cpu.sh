@@ -41,9 +41,15 @@ main() {
     if [ "$cpu_load" = true ]; then
         echo "$(get_load)"
     else
-        cpu_icon=$(get_tmux_option "@tmux2k-cpu-icon" "")
+        cpu_icon=$(get_tmux_option "@tmux2k-cpu-icon" " ")
         cpu_percent=$(get_percent)
-        echo "$cpu_icon $cpu_percent"
+        if [ "$cpu_percent" -gt 80 ]; then
+          echo "#[fg="red"]$cpu_icon $cpu_percent%"
+        elif [ "$cpu_percent" -gt 10 ]; then
+          echo "#[fg="orange"]$cpu_icon $cpu_percent%"
+        else
+          echo "$cpu_icon $cpu_percent"
+        fi
     fi
     sleep "$RATE"
 }
