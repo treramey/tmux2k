@@ -190,7 +190,7 @@ set_options() {
 
 
 start_icon() {
-    tmux set-option -g status-left "#[bg=default,fg=${blue}] "󰋙" #S  "
+    tmux set-option -g status-left "#[bg=default,fg=${blue}] "" #S  "
 }
 
 status_bar() {
