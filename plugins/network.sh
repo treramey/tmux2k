@@ -2,16 +2,23 @@
 
 export LC_ALL=en_US.UTF-8
 
-HOSTS="google.com github.com"
+HOSTS="google.com github.com example.com"
+
+current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$current_dir/../lib/utils.sh"
+
+ethernet_icon=$(get_tmux_option "@tmux2k-network-ethernet-icon" "󰈀")
+wifi_icon=$(get_tmux_option "@tmux2k-network-wifi-icon" "")
+offline_icon=$(get_tmux_option "@tmux2k-network-offline-icon" "󰌙")
 
 get_ssid() {
     case $(uname -s) in
     Linux)
         SSID=$(iwgetid -r)
         if [ -n "$SSID" ]; then
-            printf '%s' " $SSID"
+            printf '%s' "$wifi_icon $SSID"
         else
-            echo '󰈀 Ethernet'
+            echo "$ethernet_icon Eth"
         fi
         ;;
 
@@ -19,18 +26,18 @@ get_ssid() {
         device_name=$(networksetup -listallhardwareports | grep -A 1 Wi-Fi | grep Device | awk '{print $2}')
         SSID=$(networksetup -getairportnetwork "$device_name" | awk -F ": " '{print $2}')
         if [ -n "$SSID" ]; then
-            printf '%s' "󰖩 $SSID"
+            printf '%s' "$wifi_icon $SSID"
         else
-            echo '󰈀 Ethernet'
+            echo "$ethernet_icon Eth"
         fi
         ;;
 
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatability
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
 main() {
-    network="Offline"
+    network="$offline_icon Offline"
     for host in $HOSTS; do
         if ping -q -c 1 -W 1 "$host" &>/dev/null; then
             network="$(get_ssid)"

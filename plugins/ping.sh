@@ -3,7 +3,7 @@
 export LC_ALL=en_US.UTF-8
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$current_dir"/utils.sh
+source "$current_dir/../lib/utils.sh"
 
 ping_function() {
     case $(uname -s) in
@@ -13,14 +13,14 @@ ping_function() {
         echo "$pingtime ms"
         ;;
 
-    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatability
+    CYGWIN* | MINGW32* | MSYS* | MINGW*) ;; # TODO - windows compatibility
     esac
 }
 
 main() {
 
     echo "$(ping_function)"
-    RATE=$(get_tmux_option "@tmux2k-ping-rate" 5)
+    RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
     sleep "$RATE"
 }
 

@@ -68,13 +68,13 @@ set -g @tmux2k-duo-bg "#000000" # this will set the bg for duo theme
 
 # to set powerline symbols
 set -g @tmux2k-right-sep  # alternate right status bar sep
-set -g @tmux2k-win-right-sep  # alternate window right sep
+set -g @tmux2k-window-list-right-sep  # alternate window list right sep
 
 # to not show powerline
 set -g @tmux2k-show-powerline false
 
-# set start icon, accpets: `session`, 'window`, or any string
-set -g @tmux2k-start-icon ""
+# set session icon, accpets: `session`, 'window`, or any string
+set -g @tmux2k-session-icon " #S" # `#W` for window name
 ```
 
 #### 🖌️ Customize Theme Colors
@@ -109,64 +109,132 @@ set -g @tmux2k-yellow '#f8c800' # change yellow color
 
 ### 🧩 Available Plugins
 
-- `battery`: Show battery stats and percentage
-- `git`: Show Git branch and status information
-- `cpu`: Show CPU usage information
-- `cwd`: Show current working directory
-- `gpu`: Show GPU usage information
-- `ram`: Show RAM usage information
-- `network`: Show network status and statistics
-- `bandwidth`: Show network bandwidth usage
-- `ping`: Show network ping statistics
-- `time`: Show current time and date
-- `weather`: Show weather information
-- `window`: tmux window list
-- `pomodoro`: Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
+#### 1. `bandwidth`
 
-To customize plugins, I'll highly recommend checking out their respective scripts in the [scripts](./scripts) folder.
+Show network bandwidth usage
 
-Here's some example configurations:
+   - `tmux2k-bandwidth-network-name`: Network interface to track bandwidth of, default: `en0`
+   - `tmux2k-bandwidth-up-icon`: Icon for bandwidth upload usage, default: ``
+   - `tmux2k-bandwidth-down-icon`: Icon for bandwidth download usage, default: ``
+
+#### 2. `battery`
+
+Show battery stats and percentage
+
+   - `tmux2k-battery-charging-icon`: Icon for charging status, default: ``
+   - `tmux2k-battery-missing-icon`: Icon for missing battery, default: `󱉝`
+   - `tmux2k-battery-percentage-0`: Icon for 0-25% battery, default: ``
+   - `tmux2k-battery-percentage-1`: Icon for 25-50% battery, default: ``
+   - `tmux2k-battery-percentage-2`: Icon for 50-75% battery, default: ``
+   - `tmux2k-battery-percentage-3`: Icon for 75-90% battery, default: ``
+   - `tmux2k-battery-percentage-4`: Icon for 90-100% battery, default: ``
+
+#### 3. `cpu`
+
+Show CPU usage information
+
+   - `tmux2k-cpu-icon`: Icon for CPU usage, default: ``
+   - `tmux2k-cpu-display-load`: Control CPU load display, default: `false`
+
+#### 4. `cwd`
+
+Show current working directory
+
+   - `tmux2k-cwd-icon`: Icon for directory, default: ``
+
+#### 5. `git`
+
+Show Git branch and status information
+
+   - `tmux2k-git-display-status`: Control git status display, default: `false`
+   - `tmux2k-git-added-icon`: Icon for added files, default: ``
+   - `tmux2k-git-modified-icon`: Icon for modified files, default: ``
+   - `tmux2k-git-updated-icon`: Icon for updated files, default: ``
+   - `tmux2k-git-deleted-icon`: Icon for deleted files, default: ``
+   - `tmux2k-git-repo-icon`: Icon for repository, default: ``
+   - `tmux2k-git-diff-icon`: Icon for differences, default: ``
+   - `tmux2k-git-no-repo-icon`: Icon for no repository, default: ``
+
+#### 6. `gpu`
+
+Show GPU usage information
+
+   - `tmux2k-gpu-icon`: Icon for GPU usage, default: ```
+
+#### 7. `network`
+
+Show network status and statistics
+
+   - `tmux2k-network-ethernet-icon`: Icon for Ethernet connection, default: `󰈀`
+   - `tmux2k-network-wifi-icon`: Icon for Wi-Fi connection, default: ``
+   - `tmux2k-network-offline-icon`: Icon for offline status, default: `󰌙`
+
+#### 8. `ping`
+
+Show network ping statistics
+
+#### 9. `pomodoro`
+
+Shows pomodoro timer, needs [tmux-pomodoro-plus](https://github.com/olimorris/tmux-pomodoro-plus) (hit `prefix + p` to start)
+
+#### 10. `ram`
+
+Show RAM usage information
+
+    - `tmux2k-ram-icon`: Icon for RAM usage, default: ``
+
+#### 11. `session`
+
+Shows Current Session/Window with custom icon
+
+    - `tmux2k-session-format`: Format for Tmux session, default: `#S`
+    - `tmux2k-session-icon`: Icon for Tmux session, default: ``
+
+#### 12. `time`
+
+Show current time and date
+
+    - `@tmux2k-time-format`: Sets the format for displaying the time. Default: `"%a %I:%M %p"`
+    - `@tmux2k-time-icon`: Sets the icon for the time display. Default: ``
+
+#### 13. `weather`
+
+Show weather information
+
+    - `@tmux2k-weather-scale`: Scale to use for temperature. Default: `c`, options: `[c, f, k]`
+    - `@tmux2k-weather-display-location`: Whether to show location name. Default: `true`
+    - `@tmux2k-weather-location`: Fixed location for weather. Default: `""`
+
+#### 14. `window_list`
+
+tmux window list
+
+    - `@tmux2k-window-list-left-sep`: Sets the left separator for the window list. Default: ``
+    - `@tmux2k-window-list-right-sep`: Sets the right separator for the window list. Default: ``
+    - `@tmux2k-window-list-alignment`: Sets the alignment of the window list. Default: `'absolute-centre'`
+    - `@tmux2k-window-list-format`: Sets the format for the window list. Default: `'#I:#W'`
+    - `@tmux2k-window-list-compact`: Enables or disables compact mode for the window list. Default: `false`
+
+
+#### Gemeral Plugin Configs
+
 
 ```bash
 # set the left and right plugin sections
-set -g @tmux2k-left-plugins "git cpu ram"
+set -g @tmux2k-left-plugins "session git cpu ram"
 set -g @tmux2k-right-plugins "battery network time"
 
-# to set window list alignment (absolute-centre by default)
-set -g @tmux2k-window-list-alignment 'left'
+# contorl refresh rate, also applies to bandwidth, cpu, gpu, ping, pomodoro, ram
+set -g @tmux2k-refresh-rate 5
 
 # to customize plugin colors
 set -g @tmux2k-[plugin-name]-colors "[background] [foreground]"
 set -g @tmux2k-cpu-colors "red black" # set cpu plugin bg to red, fg to black
-
-# to enable compact window list size
-set -g @tmux2k-compact-windows true
-
-# change refresh rate
-set -g @tmux2k-refresh-rate 5
-
-# weather scale
-set -g @tmux2k-show-fahrenheit false
-
-# 24 hour time
-set -g @tmux2k-military-time true
-
-# Fully Custom Time format. Accepts any time format
-# that can be passed to `date`.
-set -g @tmux2k-time-format "%F %R"
-
-# network interface to watch
-set -g @tmux2k-network-name "wlo1"
-
-# fully custom window name format.
-# see also FORMATS and STYLES sections in tmux(1)
-set -g @tmux2k-window-name-format "█ #{window_index} #{window_name}:#{b:pane_current_path}"
-
 ```
 
 #### 🪆 Add New Plugins
 
-To add a new plugin, add a script to the [scripts](./scripts) folder that prints something to the console.
+To add a new plugin, add a script to the [plugins](./plugins) folder, tmux2k will put the `echo/print` of the plugin to the your tmux status bar.
 
 > The plugin name and script file name must match e.g: plugin named `foo` should have a file called `scripts/foo.sh`
 

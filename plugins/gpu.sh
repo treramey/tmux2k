@@ -3,7 +3,7 @@
 export LC_ALL=en_US.UTF-8
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$current_dir"/utils.sh
+source "$current_dir/../lib/utils.sh"
 
 get_platform() {
     case $(uname -s) in
@@ -28,9 +28,9 @@ get_gpu() {
 
 main() {
     RATE=$(get_tmux_option "@tmux2k-refresh-rate" 5)
-    gpu_label=$(get_tmux_option "@tmux2k-gpu-usage-label" "GPU")
+    gpu_icon=$(get_tmux_option "@tmux2k-gpu-icon" "")
     gpu_usage=$(get_gpu)
-    echo "$gpu_label $gpu_usage"
+    echo "$gpu_icon $gpu_usage"
     sleep "$RATE"
 }
 
