@@ -40,9 +40,9 @@ main() {
     ram_label=$(get_tmux_option "@tmux2k-ram-usage-label" " ")
     ram_percent=$(get_percent)
     if [ "$ram_percent" -gt 75 ]; then
-      echo "#[fg="red"]$ram_label $ram_percent"
+      echo "#[fg="#eb6f92"]$ram_label $ram_percent"
     elif [ "$ram_percent" -gt 60 ]; then
-      echo "#[fg="orange"]$ram_label $ram_percent"
+      echo "#[fg="#f6c177"]$ram_label $ram_percent"
     else
       echo "$ram_label $ram_percent"
     fi

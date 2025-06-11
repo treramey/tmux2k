@@ -46,7 +46,7 @@ main() {
     done
 
     if [ "$network" = "Offline" ]; then
-      echo "#[fg="red"]󰖪 $network"
+      echo "#[fg="#eb6f92"]󰖪 $network"
     else
       echo "$network"
     fi

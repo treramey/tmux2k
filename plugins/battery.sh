@@ -69,9 +69,9 @@ battery_label() {
     elif [ "$bat_perc" -gt 25 ]; then
         echo "$percentage_1 "
     elif [ "$bat_perc" -gt 15 ]; then
-        echo "#[fg="orange"]$percentage_1 "
+        echo "#[fg="#f6c177"]$percentage_1 "
     else
-        echo "#[fg="red"]$percentage_0 "
+        echo "#[fg="#eb6f92"]$percentage_0 "
     fi
 }
 
