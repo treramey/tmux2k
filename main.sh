@@ -204,7 +204,7 @@ window_list() {
     if $window_list_compact; then
         spacer=""
     fi
-    tmux set-window-option -g window-status-current-format "#[fg=${wfg},bg=default]${wl_sep}#[fg=${gold},bg=${wfg}]${spacer}#W${spacer}#[fg=${wfg},bg=default]${wr_sep}"
+    tmux set-window-option -g window-status-current-format "#[fg=${wfg},bg=default]${wl_sep}#[fg=${text},bg=${wfg}]${spacer}#W${spacer}#[fg=${wfg},bg=default]${wr_sep}"
     tmux set-window-option -g window-status-format "#[fg=${muted},bg=default]${spacer}#I:#W${spacer}"
 }
 
