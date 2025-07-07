@@ -168,7 +168,7 @@ set_options() {
 }
 
 start_icon() {
-    tmux set-option -g status-left "#[bg=default,fg=${love}] "󰋙" #S  "
+    tmux set-option -g status-left "#[bg=default,fg=${love}] "󱁕" #S  "
 }
 
 status_bar() {
